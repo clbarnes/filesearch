@@ -79,9 +79,10 @@ class Query:
                 filepath = os.path.join(dirpath, filename)
 
                 for argtype in Query.ORDER:
-                    if not self.check_fns[argtype](filepath, self.pos_conditions[argtype]):
+                    if self.pos_conditions[argtype] and not self.check_fns[argtype](filepath, self.pos_conditions[\
+                            argtype]):
                         break  # file does not match positive conditions
-                    if self.check_fns[argtype](filepath, self.neg_conditions[argtype]):
+                    if self.neg_conditions[argtype] and self.check_fns[argtype](filepath, self.neg_conditions[argtype]):
                         break  # file matches negative conditions
 
                 else:
@@ -116,7 +117,7 @@ class Query:
         return True
 
     def pprint_results(self):
-        lines = [' '.join('"{}"'.format(arg) for arg in args)] + self.execute()
+        lines = ['Parameters: ' + ' '.join('"{}"'.format(arg) for arg in args)] + self.execute()
         print('\n'.join(lines))
 
 if __name__ == '__main__':
